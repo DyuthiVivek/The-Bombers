@@ -19,12 +19,10 @@ def init_variables():
     tankexplosion = 30
     result=0
     #sounds
-    '''
     pygame.mixer.init()
     exp=pygame.mixer.Sound('Cannon+1.wav')
     bg=pygame.mixer.Sound('bgsd.wav')
     win=pygame.mixer.Sound('win.wav')
-    '''
     # Initialing Color
     orange=(255,69,0)
     yellow=(155,155,0)
@@ -111,7 +109,7 @@ def doExplosion(screen, x, y, explosionSize=int(700/50), speed=0.006):
         pygame.draw.circle(screen, orange, (x, y), r)
         pygame.display.update()
         time.sleep(speed)
-        #exp.play()
+        exp.play()
     for r in range(explosionSize, 1, -1):
         pygame.draw.circle(screen, black, (x, y), explosionSize)
         pygame.draw.circle(screen, black, (x, y), explosionSize)
@@ -331,7 +329,7 @@ def start_screen():
     screen.fill(black)
 
     no_rounds=1
-    #bg.play(-1)
+    bg.play(-1)
 
 
     usertext=''
@@ -399,8 +397,8 @@ def start_screen():
 
 def end_screen():
     global score1, score2
-    #pygame.mixer.stop()
-    #win.play()
+    pygame.mixer.stop()
+    win.play()
     screen.fill(black)
     largefont=pygame.font.Font(None,200)
     text = largefont.render('Game Over!', True, brightyellow)
@@ -414,19 +412,26 @@ def end_screen():
     screen.fill((0,0,0))
     screen.blit(text, (100,100))
     print("Game Over")
-    if(score1 > score2):
-        print("Player 1 wins")
-        screen.blit(text1, (100,350))
-        screen.blit(text12, (100,500))
-    elif(score2 > score1):
-        print("Player 2 wins")
-        screen.blit(text2, (100,350))
-        screen.blit(text22, (100,500))
-    else:
-        print("Tied")
-        screen.blit(text3, (100,350))
-    pygame.display.flip()
-    clock.tick(0.1)
+
+    while True: # main game loop
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.quit()
+                sys.exit()
+
+        if(score1 > score2):
+            print("Player 1 wins")
+            screen.blit(text1, (100,350))
+            screen.blit(text12, (100,500))
+        elif(score2 > score1):
+            print("Player 2 wins")
+            screen.blit(text2, (100,350))
+            screen.blit(text22, (100,500))
+        else:
+            print("Tied")
+            screen.blit(text3, (100,350))
+        pygame.display.flip()
+        clock.tick(0.1)
     return 0
 #Game starts here:
 
